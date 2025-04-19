@@ -29,14 +29,19 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetByCoordinate(t *testing.T) {
-	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
+	err := InsertData(testDB, "Rainbow Trout", "Test Location", 2023, 43.7001, -79.4163)
 	require.NoError(t, err)
 
-	records, err := GetByCoordinate(testDB, "43.7001,-79.4163")
+	latMin := 43.69
+	latMax := 43.71
+	lonMin := -79.42
+	lonMax := -79.41
+
+	records, err := GetByCoordinate(testDB, latMin, latMax, lonMin, lonMax)
 	require.NoError(t, err)
 
 	assert.Len(t, records, 1, "expected 1 record")
-	assert.Equal(t, "43.7001,-79.4163", records[0]["coordinate"], "expected coordinate to be '43.7001,-79.4163'")
+	assert.Equal(t, "Rainbow Trout", records[0]["species"], "expected species to be 'Rainbow Trout'")
 
 	t.Cleanup(func() {
 		err := deleteData(testDB)
@@ -45,7 +50,7 @@ func TestGetByCoordinate(t *testing.T) {
 }
 
 func TestGetBySpecies(t *testing.T) {
-	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
+	err := InsertData(testDB, "Rainbow Trout", "Test Location", 2023, 43.7001, -79.4163)
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
 	}
@@ -65,7 +70,7 @@ func TestGetBySpecies(t *testing.T) {
 }
 
 func TestGetByLocationName(t *testing.T) {
-	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
+	err := InsertData(testDB, "Rainbow Trout", "Test Location", 2023, 43.7001, -79.4163)
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
 	}
@@ -85,7 +90,7 @@ func TestGetByLocationName(t *testing.T) {
 }
 
 func TestGetByYear(t *testing.T) {
-	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
+	err := InsertData(testDB, "Rainbow Trout", "Test Location", 2023, 43.7001, -79.4163)
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
 	}

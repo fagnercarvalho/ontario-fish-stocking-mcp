@@ -28,11 +28,21 @@ func LoadDataFromCSV(db *sql.DB, csvFile []byte) error {
 			continue
 		}
 
-		latitude := record[12]
-		longitude := record[13]
-		coordinate := latitude + "," + longitude
+		species := record[4]
+		location := record[5]
+		latitude, err := strconv.ParseFloat(record[12], 2)
+		if err != nil {
+			log.Printf("Error converting latitude: %v", err)
+			continue
+		}
 
-		err = InsertData(db, coordinate, record[4], record[5], year)
+		longitude, err := strconv.ParseFloat(record[13], 2)
+		if err != nil {
+			log.Printf("Error converting longitude: %v", err)
+			continue
+		}
+
+		err = InsertData(db, species, location, year, latitude, longitude)
 		if err != nil {
 			log.Printf("Error inserting record: %v", err)
 			continue

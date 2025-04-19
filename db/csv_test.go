@@ -35,14 +35,15 @@ func TestLoadDataFromCSV(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 2, count, "Expected 2 rows, got %d")
 
-	var species, locationName, coordinate string
+	var species, locationName, latitude, longitude string
 	var year int
 
-	err = db.QueryRow("SELECT species, location_name, coordinate, year FROM fish_stocking WHERE location_name = 'Credit River'").Scan(&species, &locationName, &coordinate, &year)
+	err = db.QueryRow("SELECT species, location_name, year, latitude, longitude FROM fish_stocking WHERE location_name = 'Credit River'").Scan(&species, &locationName, &year, &latitude, &longitude)
 	require.NoError(t, err)
 
 	require.Equal(t, "Rainbow Trout", species, "Expected species 'Rainbow Trout', got %s")
 	require.Equal(t, "Credit River", locationName, "Expected location_name 'Credit River', got %s")
-	require.Equal(t, "43.54,-79.58", coordinate, "Expected coordinate '43.54,-79.58', got %s")
+	require.Equal(t, "43.54", latitude, "Expected latitude '43.54', got %s")
+	require.Equal(t, "-79.58", longitude, "Expected longitude '-79.58', got %s")
 	require.Equal(t, 2019, year, "Expected year 2019, got %d")
 }
