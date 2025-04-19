@@ -2,8 +2,8 @@ name: Do Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
   workflow_dispatch:
 
 permissions:
