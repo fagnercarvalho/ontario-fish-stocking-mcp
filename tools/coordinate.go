@@ -1,22 +1,22 @@
 package tools
 
 import (
-	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
+
 	"ontario-fish-stocking-mcp/db"
-	"database/sql"
 
 	"github.com/mark3labs/mcp-go/mcp"
 )
 
-func QueryByCoordinate(dbConn *sql.DB, ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+func QueryByCoordinate(dbConn *sql.DB, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	coordinate, ok := request.Params.Arguments["coordinate"].(string)
 	if !ok {
 		return nil, fmt.Errorf("coordinate must be a string")
 	}
 
-	results, err := db.GetFishStockingRecordsByCoordinate(dbConn, coordinate)
+	results, err := db.GetByCoordinate(dbConn, coordinate)
 	if err != nil {
 		return nil, err
 	}

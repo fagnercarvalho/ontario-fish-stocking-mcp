@@ -1,7 +1,6 @@
 package tools
 
 import (
-	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -11,13 +10,13 @@ import (
 	"github.com/mark3labs/mcp-go/mcp"
 )
 
-func QueryBySpecies(dbConn *sql.DB, ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+func QueryBySpecies(dbConn *sql.DB, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	species, ok := request.Params.Arguments["species"].(string)
 	if !ok {
 		return nil, fmt.Errorf("species must be a string")
 	}
 
-	res, err := db.GetFishStockingRecordsBySpecies(dbConn, species)
+	res, err := db.GetBySpecies(dbConn, species)
 	if err != nil {
 		return nil, err
 	}

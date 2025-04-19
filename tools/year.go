@@ -1,23 +1,23 @@
 package tools
 
 import (
-	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
+
 	"ontario-fish-stocking-mcp/db"
-	"database/sql"
 
 	"github.com/mark3labs/mcp-go/mcp"
 )
 
-func QueryByYear(dbConn *sql.DB, ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+func QueryByYear(dbConn *sql.DB, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	yearFloat, ok := request.Params.Arguments["year"].(float64)
 	if !ok {
 		return nil, fmt.Errorf("invalid year format")
 	}
 	year := int(yearFloat)
 
-	results, err := db.GetFishStockingRecordsByYear(dbConn, year)
+	results, err := db.GetByYear(dbConn, year)
 	if err != nil {
 		return nil, err
 	}

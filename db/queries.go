@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetFishStockingRecordsByCoordinate(db *sql.DB, coordinate string) ([]map[string]interface{}, error) {
+func GetByCoordinate(db *sql.DB, coordinate string) ([]map[string]interface{}, error) {
 	rows, err := db.Query(`
 		SELECT coordinate, species, location_name, year
 		FROM fish_stocking
@@ -40,7 +40,7 @@ func GetFishStockingRecordsByCoordinate(db *sql.DB, coordinate string) ([]map[st
 	return results, nil
 }
 
-func GetFishStockingRecordsBySpecies(db *sql.DB, species string) ([]map[string]interface{}, error) {
+func GetBySpecies(db *sql.DB, species string) ([]map[string]interface{}, error) {
 	rows, err := db.Query(`
 		SELECT coordinate, species, location_name, year
 		FROM fish_stocking
@@ -74,7 +74,7 @@ func GetFishStockingRecordsBySpecies(db *sql.DB, species string) ([]map[string]i
 	return results, nil
 }
 
-func GetFishStockingRecordsByLocationName(db *sql.DB, locationName string) ([]map[string]interface{}, error) {
+func GetByLocationName(db *sql.DB, locationName string) ([]map[string]interface{}, error) {
 	rows, err := db.Query(`
 		SELECT coordinate, species, location_name, year
 		FROM fish_stocking
@@ -108,7 +108,7 @@ func GetFishStockingRecordsByLocationName(db *sql.DB, locationName string) ([]ma
 	return results, nil
 }
 
-func GetFishStockingRecordsByYear(db *sql.DB, year int) ([]map[string]interface{}, error) {
+func GetByYear(db *sql.DB, year int) ([]map[string]interface{}, error) {
 	rows, err := db.Query(`
 		SELECT coordinate, species, location_name, year
 		FROM fish_stocking
@@ -161,6 +161,15 @@ func InsertData(db *sql.DB, coordinate string, species string, locationName stri
 			INSERT INTO fish_stocking (coordinate, species, location_name, year)
 			VALUES (?, ?, ?, ?)
 		`, coordinate, species, locationName, year)
+	if err != nil {
+		log.Printf("Error inserting record: %v", err)
+		return fmt.Errorf("error inserting record: %w", err)
+	}
+	return nil
+}
+
+func deleteData(db *sql.DB) error {
+	_, err := db.Exec("DELETE FROM fish_stocking")
 	if err != nil {
 		log.Printf("Error inserting record: %v", err)
 		return fmt.Errorf("error inserting record: %w", err)

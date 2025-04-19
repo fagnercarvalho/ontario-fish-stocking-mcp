@@ -38,16 +38,16 @@ func main() {
 
 	// Add tools
 	srv.AddTool(tools.NewCoordinateTool(), func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		return tools.QueryByCoordinate(dbConn, ctx, request)
+		return tools.QueryByCoordinate(dbConn, request)
 	})
 	srv.AddTool(tools.NewSpeciesTool(), func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		return tools.QueryBySpecies(dbConn, ctx, request)
+		return tools.QueryBySpecies(dbConn, request)
 	})
 	srv.AddTool(tools.NewLocationNameTool(), func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		return tools.QueryByLocationName(dbConn, ctx, request)
+		return tools.QueryByLocationName(dbConn, request)
 	})
 	srv.AddTool(tools.NewYearTool(), func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-		return tools.QueryByYear(dbConn, ctx, request)
+		return tools.QueryByYear(dbConn, request)
 	})
 
 	// Start MCP server

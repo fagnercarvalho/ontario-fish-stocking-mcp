@@ -1,22 +1,22 @@
 package tools
 
 import (
-	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
+
 	"ontario-fish-stocking-mcp/db"
-	"database/sql"
 
 	"github.com/mark3labs/mcp-go/mcp"
 )
 
-func QueryByLocationName(dbConn *sql.DB, ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+func QueryByLocationName(dbConn *sql.DB, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	locationName, ok := request.Params.Arguments["location_name"].(string)
 	if !ok {
 		return nil, fmt.Errorf("location_name must be a string")
 	}
 
-	results, err := db.GetFishStockingRecordsByLocationName(dbConn, locationName)
+	results, err := db.GetByLocationName(dbConn, locationName)
 	if err != nil {
 		return nil, err
 	}
