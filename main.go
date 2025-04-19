@@ -49,8 +49,6 @@ func main() {
 		return tools.QueryByYear(dbConn, request)
 	})
 
-	fmt.Println("Starting MCP server...")
-
 	if err := server.ServeStdio(srv); err != nil {
 		fmt.Printf("Server error: %v\n", err)
 	}
