@@ -33,6 +33,27 @@ This MCP server provides the following tools:
 
 1.  Clone the repository.
 2.  Run `go run main.go`.
+3.  Or download the executable directly from the [Releases](https://github.com/fagnercarvalho/ontario-fish-stocking-mcp/releases) page. 
+
+## Setup
+
+In your tool of choice configure the MCP server like this:
+
+```json
+{
+  "mcpServers": {
+    "fish-stocking": {
+      "command": "<path>/ontario-fish-stocking-mcp.exe"
+    }
+  }
+}
+```
+
+## Example prompts
+
+- Summary of fish stocking in 2024
+- Compare 2024 with 2023 stocking
+- Which species were stocked on Humber River in 2024?
 
 ## License
 
