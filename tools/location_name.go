@@ -5,9 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"ontario-fish-stocking-mcp/db"
-
 	"github.com/mark3labs/mcp-go/mcp"
+	"ontario-fish-stocking-mcp/db"
 )
 
 func QueryByLocationName(dbConn *sql.DB, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {

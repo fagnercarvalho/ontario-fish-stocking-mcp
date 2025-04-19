@@ -22,10 +22,9 @@ func LoadDataFromCSV(db *sql.DB, csvFilePath string) error {
 		return fmt.Errorf("failed to read all records: %w", err)
 	}
 
-	// Insert data into the database
 	for i, record := range records {
 		if i == 0 {
-			continue // Skip header row
+			continue
 		}
 
 		year, err := strconv.Atoi(record[3])
@@ -34,7 +33,11 @@ func LoadDataFromCSV(db *sql.DB, csvFilePath string) error {
 			continue
 		}
 
-		err = InsertData(db, record[0], record[1], record[2], year)
+		latitude := record[12]
+		longitude := record[13]
+		coordinate := latitude + "," + longitude
+
+		err = InsertData(db, coordinate, record[4], record[5], year)
 		if err != nil {
 			log.Printf("Error inserting record: %v", err)
 			continue

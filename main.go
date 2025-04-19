@@ -14,29 +14,24 @@ import (
 )
 
 func main() {
-	// Initialize SQLite database
 	dbConn, err := sql.Open("sqlite", ":memory:")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer dbConn.Close()
 
-	// Create table
 	err = db.CreateTable(dbConn)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Load data from CSV
 	err = db.LoadDataFromCSV(dbConn, "Fish_Stocking_Data_for_Recreational_Purposes.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Create MCP server
 	srv := server.NewMCPServer("ontario-fish-stocking", "1.0.0")
 
-	// Add tools
 	srv.AddTool(tools.NewCoordinateTool(), func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		return tools.QueryByCoordinate(dbConn, request)
 	})
@@ -50,11 +45,8 @@ func main() {
 		return tools.QueryByYear(dbConn, request)
 	})
 
-	// Start MCP server
 	fmt.Println("Starting MCP server...")
 
-	// Start the server
-	// Start the stdio server
 	if err := server.ServeStdio(srv); err != nil {
 		fmt.Printf("Server error: %v\n", err)
 	}
