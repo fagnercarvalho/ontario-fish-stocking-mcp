@@ -6,6 +6,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	_ "modernc.org/sqlite"
 )
 
@@ -18,7 +20,10 @@ func TestMain(m *testing.M) {
 	}
 	testDB = db
 
-	CreateTable(testDB)
+	err = CreateTable(testDB)
+	if err != nil {
+		log.Fatalf("failed to create test db: %v", err)
+	}
 
 	os.Exit(m.Run())
 }
@@ -26,9 +31,7 @@ func TestMain(m *testing.M) {
 func TestGetFishStockingRecordsByCoordinate(t *testing.T) {
 	// Insert test data
 	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
-	if err != nil {
-		t.Fatalf("failed to insert test data: %v", err)
-	}
+	require.NoError(t, err)
 
 	// Call the function
 	records, err := GetFishStockingRecordsByCoordinate(testDB, "43.7001,-79.4163")
@@ -37,13 +40,8 @@ func TestGetFishStockingRecordsByCoordinate(t *testing.T) {
 	}
 
 	// Assert that the records are correct
-	if len(records) != 1 {
-		t.Fatalf("expected 1 record, got %d", len(records))
-	}
-
-	if records[0]["coordinate"] != "43.7001,-79.4163" {
-		t.Errorf("expected coordinate to be '43.7001,-79.4163', got %s", records[0]["coordinate"])
-	}
+	assert.Len(t, records, 1, "expected 1 record")
+	assert.Equal(t, "43.7001,-79.4163", records[0]["coordinate"], "expected coordinate to be '43.7001,-79.4163'")
 }
 
 func TestGetFishStockingRecordsBySpecies(t *testing.T) {
@@ -60,13 +58,8 @@ func TestGetFishStockingRecordsBySpecies(t *testing.T) {
 	}
 
 	// Assert that the records are correct
-	if len(records) != 1 {
-		t.Fatalf("expected 1 record, got %d", len(records))
-	}
-
-	if records[0]["species"] != "Rainbow Trout" {
-		t.Errorf("expected species to be 'Rainbow Trout', got %s", records[0]["species"])
-	}
+	assert.Len(t, records, 1, "expected 1 record")
+	assert.Equal(t, "Rainbow Trout", records[0]["species"], "expected species to be 'Rainbow Trout'")
 }
 
 func TestGetFishStockingRecordsByLocationName(t *testing.T) {
@@ -83,13 +76,8 @@ func TestGetFishStockingRecordsByLocationName(t *testing.T) {
 	}
 
 	// Assert that the records are correct
-	if len(records) != 1 {
-		t.Fatalf("expected 1 record, got %d", len(records))
-	}
-
-	if records[0]["locationName"] != "Test Location" {
-		t.Errorf("expected locationName to be 'Test Location', got %s", records[0]["locationName"])
-	}
+	assert.Len(t, records, 1, "expected 1 record")
+	assert.Equal(t, "Test Location", records[0]["locationName"], "expected locationName to be 'Test Location'")
 }
 
 func TestGetFishStockingRecordsByYear(t *testing.T) {
@@ -106,11 +94,6 @@ func TestGetFishStockingRecordsByYear(t *testing.T) {
 	}
 
 	// Assert that the records are correct
-	if len(records) != 1 {
-		t.Fatalf("expected 1 record, got %d", len(records))
-	}
-
-	if records[0]["year"] != 2023 {
-		t.Errorf("expected year to be 2023, got %d", records[0]["year"])
-	}
+	assert.Len(t, records, 1, "expected 1 record")
+	assert.Equal(t, 2023, records[0]["year"], "expected year to be 2023")
 }
