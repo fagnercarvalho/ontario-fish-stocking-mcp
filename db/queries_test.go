@@ -44,7 +44,7 @@ func TestGetByCoordinate(t *testing.T) {
 	})
 }
 
-func TestGetFishStockingRecordsBySpecies(t *testing.T) {
+func TestGetBySpecies(t *testing.T) {
 	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
@@ -64,7 +64,7 @@ func TestGetFishStockingRecordsBySpecies(t *testing.T) {
 	})
 }
 
-func TestGetFishStockingRecordsByLocationName(t *testing.T) {
+func TestGetByLocationName(t *testing.T) {
 	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
@@ -84,7 +84,7 @@ func TestGetFishStockingRecordsByLocationName(t *testing.T) {
 	})
 }
 
-func TestGetFishStockingRecordsByYear(t *testing.T) {
+func TestGetByYear(t *testing.T) {
 	err := InsertData(testDB, "43.7001,-79.4163", "Rainbow Trout", "Test Location", 2023)
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
