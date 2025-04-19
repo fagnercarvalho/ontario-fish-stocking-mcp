@@ -20,7 +20,7 @@ This MCP server provides the following tools:
 
 This project uses data from the Ontario government licensed under the [Open Government Licence - Ontario](https://www.ontario.ca/page/open-government-licence-ontario).
 
-
+```
                                      .:-=++-. ..:+-......:.   
                                 .=*#####*+#-. ..=-.      ..::.
                           ..:+####***##+=#*-..::..          .=
@@ -54,3 +54,4 @@ This project uses data from the Ontario government licensed under the [Open Gove
 -:                 .:-:      ..-++###+.                       
 .-:.         .:..                .:+##*:.                     
   :=-::::::::.                        ..                      
+```
