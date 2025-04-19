@@ -1,22 +1,17 @@
 package db
 
 import (
+	"bytes"
 	"database/sql"
+	_ "embed"
 	"encoding/csv"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 )
 
-func LoadDataFromCSV(db *sql.DB, csvFilePath string) error {
-	csvFile, err := os.Open(csvFilePath)
-	if err != nil {
-		return fmt.Errorf("failed to open csv file: %w", err)
-	}
-	defer csvFile.Close()
-
-	reader := csv.NewReader(csvFile)
+func LoadDataFromCSV(db *sql.DB, csvFile []byte) error {
+	reader := csv.NewReader(bytes.NewReader(csvFile))
 	records, err := reader.ReadAll()
 	if err != nil {
 		return fmt.Errorf("failed to read all records: %w", err)

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	_ "embed"
 	"fmt"
 	"log"
 
@@ -12,6 +13,9 @@ import (
 	"ontario-fish-stocking-mcp/db"
 	"ontario-fish-stocking-mcp/tools"
 )
+
+//go:embed Fish_Stocking_Data_for_Recreational_Purposes.csv
+var csvFile []byte
 
 func main() {
 	dbConn, err := sql.Open("sqlite", ":memory:")
@@ -25,7 +29,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = db.LoadDataFromCSV(dbConn, "Fish_Stocking_Data_for_Recreational_Purposes.csv")
+	err = db.LoadDataFromCSV(dbConn, csvFile)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -20,16 +20,6 @@ func TestLoadDataFromCSV(t *testing.T) {
 	}
 	csvData := strings.Join(lines[:3], "\n")
 
-	tmpFile, err := os.CreateTemp("", "test.csv")
-	require.NoError(t, err)
-	defer os.Remove(tmpFile.Name())
-
-	_, err = tmpFile.WriteString(csvData)
-	require.NoError(t, err)
-
-	err = tmpFile.Close()
-	require.NoError(t, err)
-
 	db, err := sql.Open("sqlite", ":memory:")
 	require.NoError(t, err)
 	defer db.Close()
@@ -37,7 +27,7 @@ func TestLoadDataFromCSV(t *testing.T) {
 	err = CreateTable(db)
 	require.NoError(t, err)
 
-	err = LoadDataFromCSV(db, tmpFile.Name())
+	err = LoadDataFromCSV(db, []byte(csvData))
 	require.NoError(t, err)
 
 	var count int
